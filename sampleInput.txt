@@ -1,0 +1,8 @@
+What is the capital of Czech Republic?;Prague
+What is 2+2?;4
+What is the square root of 16?;4
+How many days are there in a week?;7
+Who painted the Mona Lisa?;Leonardo da Vinci
+Who wrote "Romeo and Juliet"?;William Shakespeare
+What is the capital of France?;Paris
+
