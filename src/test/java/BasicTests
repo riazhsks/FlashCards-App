@@ -1,0 +1,74 @@
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import cz.cuni.mff.riazhsks.DBconnection;
+import cz.cuni.mff.riazhsks.Flashcard;
+import cz.cuni.mff.riazhsks.MainApp;
+import java.util.List;
+import java.util.ArrayList;
+import java.awt.Color;
+
+public class BasicTests {
+  
+    @Test
+    public void createFlashcard() {
+        Flashcard fc = new Flashcard("Question", "Answer", 1, Color.RED);
+        String q = fc.getQuestion();
+        String a = fc.getAnswer();
+        int n = fc.getNumber();
+        Color c = fc.getColor();
+        Assertions.assertEquals(q, "Question"); 
+        Assertions.assertEquals(a, "Answer"); 
+        Assertions.assertEquals(n, 1); 
+        Assertions.assertEquals(c, Color.RED); 
+
+    }
+
+    @Test
+    public void workWithDB() {
+        DBconnection.initializeDatabase();
+        DBconnection.createTable();
+        Assertions.assertEquals(DBconnection.count, 0); 
+        DBconnection.addFlashcard("Question1", "Answer1", 1, Color.RED);
+        DBconnection.addFlashcard("Question2", "Answer2", 2, Color.GREEN);
+        Assertions.assertEquals(DBconnection.count, 2); 
+        DBconnection.removeAll(true);
+        Assertions.assertEquals(DBconnection.count, 0); 
+    }
+
+   
+    @Test
+    public void testNextButton() {
+        MainApp app = new MainApp();
+        List<Flashcard> Flashcards = new ArrayList<>();
+        Flashcards.add(new Flashcard("Question1", "Answer1", 1, Color.RED));
+        Flashcards.add(new Flashcard("Question2", "Answer2", 2, Color.GREEN));
+        app.flashcards = Flashcards;
+        app.currentCardIndex = 0;
+        app.nextButton.doClick();
+        Assertions.assertEquals(app.currentCardIndex,1);
+    }
+
+    @Test
+    public void testPrevButton() {
+        MainApp app = new MainApp();
+        List<Flashcard> Flashcards = new ArrayList<>();
+        Flashcards.add(new Flashcard("Question1", "Answer1", 1, Color.RED));
+        Flashcards.add(new Flashcard("Question2", "Answer2", 2, Color.GREEN));
+        app.flashcards = Flashcards;
+        app.currentCardIndex = 1;
+        app.prevButton.doClick();
+        Assertions.assertEquals(app.currentCardIndex,0);
+    }
+    
+    @Test
+    public void testFlipButton() {
+        MainApp app = new MainApp();
+        List<Flashcard> Flashcards = new ArrayList<>();
+        Flashcards.add(new Flashcard("Question1", "Answer1", 1, Color.RED));
+        app.flashcards = Flashcards;
+        app.showingQuestion = true;
+        app.flipButton.doClick();
+        Assertions.assertEquals(app.showingQuestion,false);
+    } 
+}
